@@ -78,13 +78,13 @@ class IndividualAlbumView(APIView):
 
     def get(self, request, album_id):
         user = request.user
-        album = models.Album.objects.get(user=user, id=album_id)
+        album = get_object_or_404(models.Album, user=user, id=album_id)
         serializer = serializers.AlbumSerializer(album)
         return Response(serializer.data)
 
     def patch(self, request, album_id):
         user = request.user
-        album = models.Album.objects.get(user=user, id=album_id)
+        album = get_object_or_404(models.Album, user=user, id=album_id)
         serializer = serializers.AlbumSerializer(album, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save(user=user)
